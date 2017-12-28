@@ -118,7 +118,7 @@ class SwiftMailer
                     if ($attachment->name !== null) {
                         $messageAttachment->setFilename($attachment->name);
                     }
-                    $message->attach($attachment);
+                    $message->attach($messageAttachment);
                 }
             }
         }
@@ -158,7 +158,7 @@ class SwiftMailer
                         $messageAttachment->setId(md5($embed->content) . '.' . $email->sender->email);
                     }
                     $messageAttachment->setDisposition('inline');
-                    $message->attach($embed);
+                    $message->attach($messageAttachment);
                 }
             }
         }
@@ -168,7 +168,13 @@ class SwiftMailer
             if ($signer instanceof \BearFramework\Emails\Email\DKIMSigner) {
                 $message->attachSigner(new \Swift_Signers_DKIMSigner($signer->privateKey, $signer->domain, $signer->selector));
             } elseif ($signer instanceof \BearFramework\Emails\Email\SMIMESigner) {
-                $message->attachSigner(new \Swift_Signers_SMimeSigner($signer->certificate, $signer->privateKey));
+                $certificateTempFile = tmpfile();
+                fwrite($certificateTempFile, $signer->certificate);
+                $certificateTempFileMetaData = stream_get_meta_data($certificateTempFile);
+                $privateKeyTempFile = tmpfile();
+                fwrite($privateKeyTempFile, $signer->privateKey);
+                $privateKeyTempFileMetaData = stream_get_meta_data($privateKeyTempFile);
+                $message->attachSigner(new \Swift_Signers_SMimeSigner($certificateTempFileMetaData['uri'], $privateKeyTempFileMetaData['uri']));
             }
         }
         return $message;
