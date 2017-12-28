@@ -110,7 +110,7 @@ class SwiftMailer
                 }
             } elseif ($attachment instanceof \BearFramework\Emails\Email\ContentAttachment) {
                 if ($attachment->content !== null) {
-                    $messageAttachment = \Swift_Attachment::newInstance();
+                    $messageAttachment = new \Swift_Attachment();
                     $messageAttachment->setBody($attachment->content);
                     if ($attachment->mimeType !== null) {
                         $messageAttachment->setContentType($attachment->mimeType);
@@ -144,7 +144,7 @@ class SwiftMailer
                 }
             } elseif ($embed instanceof \BearFramework\Emails\Email\ContentEmbed) {
                 if ($embed->content !== null) {
-                    $messageAttachment = \Swift_Attachment::newInstance();
+                    $messageAttachment = new \Swift_Attachment();
                     $messageAttachment->setBody($embed->content);
                     if ($embed->mimeType !== null) {
                         $messageAttachment->setContentType($embed->mimeType);
