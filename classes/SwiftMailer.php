@@ -54,7 +54,9 @@ class SwiftMailer
         }
 
         if ($email->date !== null) {
-            $message->setDate(new \DateTime($email->date));
+            $dateTime = new \DateTime();
+            $dateTime->setTimestamp($email->date);
+            $message->setDate($dateTime);
         }
 
         $replyToRecipients = $email->replyToRecipients->getList();
