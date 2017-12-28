@@ -20,7 +20,7 @@ class SwiftMailerTest extends BearFrameworkAddonTestCase
     {
         $app = $this->getApp();
 
-        $transport = \Swift_SmtpTransport::newInstance('', '');
+        $transport = new \Swift_SmtpTransport('', '');
 
         $email = $app->emails->make();
         $email->subject = 'Hi';
@@ -55,12 +55,12 @@ class SwiftMailerTest extends BearFrameworkAddonTestCase
         $email->content->add('Hi there', 'text/plain');
 
         $message = $app->swiftMailer->emailToSwiftMessage($email);
-        $mime = $message->toString();
-        $mime = preg_replace('/Message\-ID\: \<(.*)\.john\@example\.com\>/', 'Message-ID: <xxx111.john@example.com>', $mime);
-        $mime = preg_replace('/Date\: (.*)/', 'Date: xxx222', $mime);
-        $mime = preg_replace('/boundary\-([a-z0-9]*)/', 'boundary-xxx333', $mime);
-        $mime = trim($mime);
-        $mime = preg_replace('~\r\n?~', "\n", $mime);
+        $raw = $message->toString();
+        $raw = preg_replace('/Message\-ID\: \<(.*)\.john\@example\.com\>/', 'Message-ID: <xxx111.john@example.com>', $raw);
+        $raw = preg_replace('/Date\: (.*)/', 'Date: xxx222', $raw);
+        $raw = preg_replace('/boundary\-([a-z0-9]*)/', 'boundary-xxx333', $raw);
+        $raw = trim($raw);
+        $raw = preg_replace('~\r\n?~', "\n", $raw);
 
         $expected = 'Message-ID: <xxx111.john@example.com>
 Date: xxx222
@@ -86,7 +86,7 @@ Content-Transfer-Encoding: quoted-printable
 
 --boundary-xxx333--';
         $expected = preg_replace('~\r\n?~', "\n", $expected);
-        $this->assertTrue($mime === $expected);
+        $this->assertTrue($raw === $expected);
     }
 
 }

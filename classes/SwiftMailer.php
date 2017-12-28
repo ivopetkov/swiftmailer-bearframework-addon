@@ -23,7 +23,7 @@ class SwiftMailer
      */
     public function send(\Swift_Transport $transport, \BearFramework\Emails\Email $email): bool
     {
-        $mailer = \Swift_Mailer::newInstance($transport);
+        $mailer = new \Swift_Mailer($transport);
         $message = $this->emailToSwiftMessage($email);
         return $mailer->send($message) > 0;
     }
@@ -39,23 +39,42 @@ class SwiftMailer
         $message->setId(microtime(true) * 10000 . '.' . $email->sender->email);
         $message->setBoundary('boundary-' . md5(uniqid()));
 
+        $headers = $email->headers->getList();
+        if ($headers->length > 0) {
+            $messageHeaders = $message->getHeaders();
+            foreach ($headers as $header) {
+                $messageHeaders->addTextHeader($header->name, $header->value);
+            }
+        }
+
         if ($email->sender->name !== null) {
             $message->setFrom([$email->sender->email => $email->sender->name]);
         } else {
             $message->setFrom($email->sender->email);
         }
 
-        if ($email->replyTo->email !== null) {
-            if ($email->replyTo->name !== null) {
-                $message->setReplyTo([$email->replyTo->email => $email->replyTo->name]);
-            } else {
-                $message->setReplyTo($email->replyTo->email);
-            }
+        if ($email->date !== null) {
+            $message->setDate(new \DateTime($email->date));
+        }
+
+        $replyToRecipients = $email->replyToRecipients->getList();
+        foreach ($replyToRecipients as $replyToRecipient) {
+            $message->addReplyTo($replyToRecipient->email, $replyToRecipient->name);
         }
 
         $recipients = $email->recipients->getList();
         foreach ($recipients as $recipient) {
             $message->addTo($recipient->email, $recipient->name);
+        }
+
+        $ccRecipients = $email->ccRecipients->getList();
+        foreach ($ccRecipients as $ccRecipient) {
+            $message->addReplyTo($ccRecipient->email, $ccRecipient->name);
+        }
+
+        $bccRecipients = $email->bccRecipients->getList();
+        foreach ($bccRecipients as $bccRecipient) {
+            $message->addReplyTo($bccRecipient->email, $bccRecipient->name);
         }
 
         if ($email->subject !== null) {
