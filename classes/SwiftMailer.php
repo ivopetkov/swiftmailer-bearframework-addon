@@ -71,12 +71,12 @@ class SwiftMailer
 
         $ccRecipients = $email->ccRecipients->getList();
         foreach ($ccRecipients as $ccRecipient) {
-            $message->addReplyTo($ccRecipient->email, $ccRecipient->name);
+            $message->addCc($ccRecipient->email, $ccRecipient->name);
         }
 
         $bccRecipients = $email->bccRecipients->getList();
         foreach ($bccRecipients as $bccRecipient) {
-            $message->addReplyTo($bccRecipient->email, $bccRecipient->name);
+            $message->addBcc($bccRecipient->email, $bccRecipient->name);
         }
 
         if ($email->subject !== null) {
