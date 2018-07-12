@@ -10,7 +10,7 @@
 /**
  * @runTestsInSeparateProcesses
  */
-class SwiftMailerTest extends BearFrameworkAddonTestCase
+class SwiftMailerTest extends BearFramework\AddonTests\PHPUnitTestCase
 {
 
     /**
