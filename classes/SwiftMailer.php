@@ -40,7 +40,7 @@ class SwiftMailer
         $message->setBoundary('boundary-' . md5(uniqid()));
 
         $headers = $email->headers->getList();
-        if ($headers->length > 0) {
+        if ($headers->count() > 0) {
             $messageHeaders = $message->getHeaders();
             foreach ($headers as $header) {
                 $messageHeaders->addTextHeader($header->name, $header->value);
