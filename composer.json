@@ -1,7 +1,12 @@
 {
     "name": "ivopetkov/swiftmailer-bearframework-addon",
     "description": "Swift Mailer addon for Bear Framework",
-    "keywords": ["swiftmailer", "emails", "addon", "Bear Framework"],
+    "keywords": [
+        "swiftmailer",
+        "emails",
+        "addon",
+        "Bear Framework"
+    ],
     "homepage": "https://github.com/ivopetkov/swiftmailer-bearframework-addon",
     "license": "MIT",
     "authors": [
@@ -14,14 +19,15 @@
     "require": {
         "php": ">=7.1",
         "bearframework/bearframework": "1.*",
-        "bearframework/emails-addon": "0.7.*",
+        "bearframework/emails-addon": "1.*",
         "swiftmailer/swiftmailer": "6.1.*"
     },
     "require-dev": {
-        "bearframework/addon-tests": "0.3.*",
-        "phpunit/phpunit": "7.*"
+        "bearframework/addon-tests": "1.*"
     },
     "autoload": {
-        "files": ["autoload.php"]
+        "files": [
+            "autoload.php"
+        ]
     }
 }
