@@ -14,6 +14,6 @@ $context = $app->contexts->get(__DIR__);
 
 $context->classes->add('IvoPetkov\BearFrameworkAddons\SwiftMailer', 'classes/SwiftMailer.php');
 
-$app->shortcuts->add('swiftMailer', function() {
+$app->shortcuts->add('swiftMailer', function () {
     return new \IvoPetkov\BearFrameworkAddons\SwiftMailer();
 });

@@ -149,5 +149,4 @@ Y29udGVudEI=
         $expected = preg_replace('~\r\n?~', "\n", $expected);
         $this->assertTrue($raw === $expected);
     }
-
 }
