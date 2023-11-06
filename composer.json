@@ -20,7 +20,7 @@
         "php": "7.1.*|7.2.*|7.3.*|7.4.*|8.0.*|8.1.*|8.2.*|8.3.*",
         "bearframework/bearframework": "1.*",
         "bearframework/emails-addon": "1.*",
-        "egulias/email-validator": "3.*|4.*"
+        "egulias/email-validator": "2.*|3.*|4.*"
     },
     "require-dev": {
         "bearframework/addon-tests": "1.*"
