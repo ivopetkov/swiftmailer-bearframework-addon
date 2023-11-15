@@ -314,7 +314,7 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
     {
         foreach ($this->handlers as $handler) {
             if (in_array(
-                strtolower($method),
+                strtolower((string)$method),
                 array_map('strtolower', (array) $handler->exposeMixinMethods())
             )) {
                 $return = call_user_func_array([$handler, $method], $arguments);

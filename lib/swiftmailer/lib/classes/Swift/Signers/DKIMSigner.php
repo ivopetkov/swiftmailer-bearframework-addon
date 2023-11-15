@@ -469,7 +469,7 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
      */
     public function ignoreHeader($header_name)
     {
-        $this->ignoredHeaders[strtolower($header_name)] = true;
+        $this->ignoredHeaders[strtolower((string)$header_name)] = true;
 
         return $this;
     }
@@ -486,7 +486,7 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
         $listHeaders = $headers->listAll();
         foreach ($listHeaders as $hName) {
             // Check if we need to ignore Header
-            if (!isset($this->ignoredHeaders[strtolower($hName)])) {
+            if (!isset($this->ignoredHeaders[strtolower((string)$hName)])) {
                 if ($headers->has($hName)) {
                     $tmp = $headers->getAll($hName);
                     foreach ($tmp as $header) {

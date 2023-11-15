@@ -239,7 +239,7 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
     private function getHostString()
     {
         $host = $this->host;
-        switch (strtolower($this->crypto)) {
+        switch (strtolower((string)$this->crypto)) {
             case 'ssl':
                 $host = 'ssl://'.$host;
                 break;
