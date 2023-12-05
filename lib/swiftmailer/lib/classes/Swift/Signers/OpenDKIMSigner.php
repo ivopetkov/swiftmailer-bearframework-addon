@@ -176,7 +176,7 @@ class Swift_Signers_OpenDKIMSigner extends Swift_Signers_DKIMSigner
             }
         }
         $this->dropFirstLF = false;
-        if (strlen($string)) {
+        if (strlen((string)$string)) {
             $this->dkimHandler->body($string);
         }
     }

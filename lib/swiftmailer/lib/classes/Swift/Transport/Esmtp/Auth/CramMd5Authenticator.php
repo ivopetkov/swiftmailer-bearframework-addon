@@ -56,11 +56,11 @@ class Swift_Transport_Esmtp_Auth_CramMd5Authenticator implements Swift_Transport
      */
     private function getResponse($secret, $challenge)
     {
-        if (strlen($secret) > 64) {
+        if (strlen((string)$secret) > 64) {
             $secret = pack('H32', md5($secret));
         }
 
-        if (strlen($secret) < 64) {
+        if (strlen((string)$secret) < 64) {
             $secret = str_pad($secret, 64, chr(0));
         }
 

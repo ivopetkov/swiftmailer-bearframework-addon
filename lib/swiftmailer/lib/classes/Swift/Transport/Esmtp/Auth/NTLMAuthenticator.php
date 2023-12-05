@@ -147,7 +147,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         // remove terminatorByte cause it's always the same
         $block = substr($block, 0, -8);
 
-        $length = strlen($block);
+        $length = strlen((string)$block);
         $offset = 0;
         $data = [];
         while ($offset < $length) {
@@ -385,7 +385,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
     {
         $lmPass = '00'; // by default 00
         // if $password > 15 than we can't use this method
-        if (strlen($password) <= 15) {
+        if (strlen((string)$password) <= 15) {
             $ntlmHash = $this->md4Encrypt($password);
             $ntml2Hash = $this->md5Encrypt($ntlmHash, $this->convertTo16bit(strtoupper($username).$domain));
 
@@ -426,7 +426,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
     protected function createDesKey($key)
     {
         $material = [bin2hex($key[0])];
-        $len = strlen($key);
+        $len = strlen((string)$key);
         for ($i = 1; $i < $len; ++$i) {
             list($high, $low) = str_split(bin2hex($key[$i]));
             $v = $this->castToByte(ord($key[$i - 1]) << (7 + 1 - $i) | $this->uRShift(hexdec(dechex(hexdec($high) & 0xf).dechex(hexdec($low) & 0xf)), $i));
@@ -563,7 +563,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
     protected function md5Encrypt($key, $msg)
     {
         $blocksize = 64;
-        if (strlen($key) > $blocksize) {
+        if (strlen((string)$key) > $blocksize) {
             $key = pack('H*', md5($key));
         }
 

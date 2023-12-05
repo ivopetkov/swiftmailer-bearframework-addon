@@ -197,7 +197,7 @@ class Swift_Mime_Headers_ParameterizedHeader extends Swift_Mime_Headers_Unstruct
         }
 
         // Encode if we need to
-        if ($encoded || strlen($value) > $maxValueLength) {
+        if ($encoded || strlen((string)$value) > $maxValueLength) {
             if (isset($this->paramEncoder)) {
                 $value = $this->paramEncoder->encodeString(
                     $origValue, $firstLineOffset, $maxValueLength, $this->getCharset()

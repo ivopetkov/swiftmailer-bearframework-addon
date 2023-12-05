@@ -73,7 +73,7 @@ class Swift_Plugins_BandwidthMonitorPlugin implements Swift_Events_SendListener,
      */
     public function write($bytes)
     {
-        $this->out += strlen($bytes);
+        $this->out += strlen((string)$bytes);
         foreach ($this->mirrors as $stream) {
             $stream->write($bytes);
         }

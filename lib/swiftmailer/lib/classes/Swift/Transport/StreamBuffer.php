@@ -224,7 +224,7 @@ class Swift_Transport_StreamBuffer extends Swift_ByteStream_AbstractFilterableIn
     protected function doCommit($bytes)
     {
         if (isset($this->in)) {
-            $bytesToWrite = strlen($bytes);
+            $bytesToWrite = strlen((string)$bytes);
             $totalBytesWritten = 0;
 
             while ($totalBytesWritten < $bytesToWrite) {
