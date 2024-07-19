@@ -37,7 +37,6 @@ class SwiftMailer
     {
         $message = new \Swift_Message();
         $message->setId(microtime(true) * 10000 . '.' . $email->sender->email);
-        $message->setBoundary('boundary-' . md5(uniqid()));
 
         $headers = $email->headers->getList();
         if ($headers->count() > 0) {
@@ -84,9 +83,8 @@ class SwiftMailer
         }
 
         $contentParts = $email->content->getList();
-
         foreach ($contentParts as $contentPart) {
-            $message->attach(new \Swift_MimePart($contentPart->content, $contentPart->mimeType, $contentPart->encoding));
+            $message->addPart($contentPart->content, $contentPart->mimeType, $contentPart->encoding);
         }
 
         if ($email->returnPath !== null) {
@@ -125,6 +123,7 @@ class SwiftMailer
             }
         }
 
+        $hasEmbeds = false;
         $embeds = $email->embeds->getList();
         foreach ($embeds as $embed) {
             if ($embed instanceof \BearFramework\Emails\Email\FileEmbed) {
@@ -143,6 +142,7 @@ class SwiftMailer
                     }
                     $messageAttachment->setDisposition('inline');
                     $message->attach($messageAttachment);
+                    $hasEmbeds = true;
                 }
             } elseif ($embed instanceof \BearFramework\Emails\Email\ContentEmbed) {
                 if ($embed->content !== null) {
@@ -161,6 +161,7 @@ class SwiftMailer
                     }
                     $messageAttachment->setDisposition('inline');
                     $message->attach($messageAttachment);
+                    $hasEmbeds = true;
                 }
             }
         }
@@ -179,7 +180,11 @@ class SwiftMailer
                 $message->attachSigner(new \Swift_Signers_SMimeSigner($certificateTempFileMetaData['uri'], $privateKeyTempFileMetaData['uri']));
             }
         }
+
+        if ($hasEmbeds) {
+            $message->setContentType('multipart/related');
+        }
+
         return $message;
     }
-
 }
