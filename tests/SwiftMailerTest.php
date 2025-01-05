@@ -76,8 +76,8 @@ class SwiftMailerTest extends BearFramework\AddonTests\PHPUnitTestCase
         $matches = null;
         preg_match_all('/\_\=\_(.*?)\_\=\_/', $raw, $matches);
         $boundaries = array_values(array_unique($matches[0]));
-        $raw = join('xxx333', explode($boundaries[0], $raw));
-        $raw = join('xxx444', explode($boundaries[1], $raw));
+        $raw = implode('xxx333', explode($boundaries[0], $raw));
+        $raw = implode('xxx444', explode($boundaries[1], $raw));
         $raw = trim($raw);
         $raw = preg_replace('~\r\n?~', "\n", $raw);
 
